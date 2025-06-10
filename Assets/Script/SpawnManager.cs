@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject enemyPrefab; // Prefab for the enemy to spawn
-    public GameObject powerupPrefab;
+    public GameObject[] enemyPrefab; // Prefab for the enemy to spawn
+    public GameObject[] powerupPrefab;
     private float spawnRange = 9.0f; // Range within which enemies can spawn
-    public int enemyCount; // Total number of enemies in the game
-    public int waveNumber = 1; // Current wave number
+    private int enemyCount; // Total number of enemies in the game
+    private int waveNumber = 1; // Current wave number
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start ()
@@ -38,14 +38,16 @@ public class SpawnManager : MonoBehaviour
 
     private void GeneratePowerup ()
     {
-        Instantiate(powerupPrefab, GenerateSpawnPosition(), powerupPrefab.transform.rotation); // Spawn a power-up at a random position
+        int randomPowerup = Random.Range(0, powerupPrefab.Length); // Randomly selects an enemy prefab from the array
+        Instantiate(powerupPrefab[randomPowerup], GenerateSpawnPosition(), powerupPrefab[randomPowerup].transform.rotation); // Spawn a power-up at a random position
     }
 
     private void SpawnEnemyWave ( int enemiesToSpawn )
     {
         for (int i = 0; i < enemiesToSpawn; i++) // Spawns 5 enemies at the start
         {
-            Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation); // Spawns an enemy at the origin position
+            int randomEnemy = Random.Range(0, enemyPrefab.Length); // Randomly selects an enemy prefab from the array
+            Instantiate(enemyPrefab[randomEnemy], GenerateSpawnPosition(), enemyPrefab[randomEnemy].transform.rotation); // Spawns an enemy at the origin position
         }
     }
 

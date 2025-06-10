@@ -147,10 +147,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdf1b86c90dff9c418b1c2d6c43186a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3733156874856533609, guid: 5e915527202c220409730b8949f73f3f, type: 3}
-  powerupPrefab: {fileID: 4456650020284972937, guid: 92ac64f954ab3fd429c67fd97471cbb0, type: 3}
-  enemyCount: 0
-  waveNumber: 1
+  enemyPrefab:
+  - {fileID: 3733156874856533609, guid: 5e915527202c220409730b8949f73f3f, type: 3}
+  - {fileID: 3267819079076913871, guid: a9dd31fb6e6aee145a863b28c434a2cc, type: 3}
+  - {fileID: 813814848777967214, guid: a4ed305dca04719428ac7dcc4474db06, type: 3}
+  powerupPrefab:
+  - {fileID: 4456650020284972937, guid: 92ac64f954ab3fd429c67fd97471cbb0, type: 3}
+  - {fileID: 4456650020284972937, guid: 337baafab50db3e4fa70c10a1be1b5c7, type: 3}
 --- !u!4 &3413026
 Transform:
   m_ObjectHideFlags: 0
@@ -2236,6 +2239,65 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 8878a37eb67ddac4ead51890a31d6a18, type: 3}
+--- !u!1 &1614327863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1614327865}
+  - component: {fileID: 1614327864}
+  - component: {fileID: 1614327866}
+  m_Layer: 0
+  m_Name: Jugador
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1614327864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614327863}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 793721a1ac6cc604288e7f845ee58a6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocidad: 0
+--- !u!4 &1614327865
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614327863}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.5264794, y: 2.7769237, z: -1.4487103}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1614327866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614327863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be117773d24b6b409e44fcc23dfdc35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1687920397}
 --- !u!1 &1687920391
 GameObject:
   m_ObjectHideFlags: 0
@@ -2250,6 +2312,7 @@ GameObject:
   - component: {fileID: 1687920393}
   - component: {fileID: 1687920392}
   - component: {fileID: 1687920397}
+  - component: {fileID: 1687920398}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2386,10 +2449,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerupIndicator: {fileID: 845559117}
-  gameOverPanel: {fileID: 0}
-  speed: 5
+  rocketPrefab: {fileID: 6283387742994878021, guid: 809d1933d4e386a40b418350451a0108, type: 3}
+  currentPowerUp: 0
   hasPowerup: 0
   gameOver: 0
+--- !u!114 &1687920398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687920391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 793721a1ac6cc604288e7f845ee58a6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocidad: -5
 --- !u!1 &1800543265
 GameObject:
   m_ObjectHideFlags: 0
@@ -2818,3 +2894,4 @@ SceneRoots:
   - {fileID: 827100506}
   - {fileID: 1687920396}
   - {fileID: 1800543268}
+  - {fileID: 1614327865}

@@ -1,14 +1,19 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.LowLevel;
 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody playerRb;
     private GameObject focalPoint;
+    private GameObject gameOverPanel;
     public GameObject powerupIndicator; // Reference to the power-up indicator GameObject
-    public GameObject gameOverPanel; 
+    public GameObject rocketPrefab;
+    private GameObject tmpRocket;
+    private Coroutine powerupCountdown;
+    public PowerUpType currentPowerUp = PowerUpType.None;
 
-    public float speed = 5.0f; // Speed of the player movement
+    private float speed = 5.0f; // Speed of the player movement
     private float powerupStrength = 15.0f; // Strength of the power-up effect
 
     public bool hasPowerup = false; // Flag to check if the player has a power-up
@@ -32,7 +37,25 @@ public class PlayerController : MonoBehaviour
 
         Vector3 offset = new Vector3(0, -0.5f, 0); // Offset for the power-up indicator position
         powerupIndicator.transform.position = transform.position + offset; // Set the position of the power-up indicator relative to the player
+        if (currentPowerUp == PowerUpType.Rockets && Input.GetKeyDown(KeyCode.F)) 
+        { 
+            LaunchRockets(); 
+        }
+    }
 
+    public float Speed // This variable is public so it can be set in the Unity Inspector
+    {
+        get { return speed; }
+        set { speed = value; }
+    }
+    public float GetVelocidad ()
+    {
+        return speed;
+    }
+
+    public void SetVelocidad ( float speed )
+    {
+        this.speed = speed;
     }
     private void FixedUpdate ()
     {
@@ -56,9 +79,16 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Powerup"))
         {
             hasPowerup = true; // Set the flag to true when the player collects a power-up
+            currentPowerUp = other.gameObject.GetComponent<Powerup>().powerUpType;
             powerupIndicator.SetActive(true); // Activate the power-up indicator
             Destroy(other.gameObject); // Destroy the power-up object
-            StartCoroutine(PowerupCountdownRoutine()); // Start the countdown coroutine
+
+            if(powerupCountdown != null)
+            {
+                StopCoroutine(powerupCountdown);
+            }
+            powerupCountdown = StartCoroutine(PowerupCountdownRoutine()); // Start the countdown coroutine
+
         }
     }
 
@@ -66,19 +96,31 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(7); // Wait for 7 seconds
         hasPowerup = false; // Reset the power-up flag
+        currentPowerUp = PowerUpType.None;
         powerupIndicator.SetActive(false); // Deactivate the power-up indicator
     }
 
     private void OnCollisionEnter ( Collision collision )
     {
         // Check if the player collides with an enemy and has a power-up
-        if (collision.gameObject.CompareTag("Enemy") && hasPowerup)
+        if (collision.gameObject.CompareTag("Enemy") && currentPowerUp == PowerUpType.Pushback)
         {
             Rigidbody enemyRb = collision.gameObject.GetComponent<Rigidbody>();
             Vector3 awayFromPlayer = collision.gameObject.transform.position - transform.position; // Direction away from the player
-            Debug.Log("Player colisiona con: " + collision.gameObject.name + " con el powerup en " + hasPowerup);
+            Debug.Log("Player colisiona con: " + collision.gameObject.name + " con el powerup " + currentPowerUp.ToString());
             // Apply force to the enemy away from the player
             enemyRb.AddForce(awayFromPlayer * powerupStrength, ForceMode.Impulse); 
         }
+    }
+
+    void LaunchRockets () 
+    {
+        Enemy[] enemies = Object.FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+
+        foreach (var enemy in enemies) 
+        { 
+            tmpRocket = Instantiate(rocketPrefab, transform.position + Vector3.up, Quaternion.identity); 
+            tmpRocket.GetComponent<RocketBehavior>().Fire(enemy.transform); 
+        } 
     }
 }
